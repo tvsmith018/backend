@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+psycopg2 = "*"
+graphene-django = "*"
+pillow = "*"
+adrf = "*"
+django-cleanup = "*"
+django-cors-headers = "*"
+django-filter = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

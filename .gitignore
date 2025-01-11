@@ -1,7 +1,5 @@
 *.env
-*.lock
 *DockerFile
-*Pipfile
 __pycache__/
 migrations/
 media/
