@@ -151,3 +151,4 @@ GRAPHENE = {
 }
 
 CORS_ALLOWED_ORIGINS = ast.literal_eval(os.getenv('CORS_ALLOWED_ORIGINS'))
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
