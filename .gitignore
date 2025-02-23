@@ -1,5 +1,0 @@
-*.env
-*DockerFile
-__pycache__/
-migrations/
-media/
