@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Payment Receipt</title>
     </head>
@@ -8,6 +8,10 @@
             <h2 style="text-align: center; color: #1a1a1a;">Payment Receipt</h2>
             <p style="text-align: center; color: #444;">Thanks {{ customer_name }}. Your payment was recorded successfully.</p>
             <table style="width: 100%; border-collapse: collapse; margin-top: 24px; margin-bottom: 24px;">
+                <tr style="display:none;">
+                    <th scope="col">Field</th>
+                    <th scope="col">Value</th>
+                </tr>
                 <tr>
                     <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Amount</strong></td>
                     <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">{{ currency }} {{ amount }}</td>
@@ -41,7 +45,7 @@
                     <td style="padding: 10px; text-align: right;">{{ paid_at }}</td>
                 </tr>
             </table>
-            <img src="cid:logo.png" width="220" style="display: block; margin: 0 auto;" />
+            <img src="cid:logo.png" width="220" alt="BigChief logo" style="display: block; margin: 0 auto;" />
         </div>
     </body>
 </html>

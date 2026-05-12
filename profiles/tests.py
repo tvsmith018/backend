@@ -1,3 +1,4 @@
+import asyncio
 from datetime import date
 
 from django.contrib.auth import get_user_model
@@ -56,6 +57,7 @@ class _DummyChannelLayer:
 
     async def group_send(self, group_name, payload):
         self.messages.append((group_name, payload))
+        await asyncio.sleep(0)
 
 
 class ProfilePostShareDeleteFlowTests(TestCase):
