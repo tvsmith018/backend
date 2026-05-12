@@ -1,4 +1,4 @@
-import random
+import secrets
 from django.contrib.auth import get_user_model
 from users.tasks.emails import send_email
 
@@ -17,6 +17,7 @@ class OTPService:
         if otp_type == "signup" and user_exists:
             raise ValueError("User already has account")
 
-        code = ''.join(random.choices('0123456789', k=6))
+        digits = "0123456789"
+        code = "".join(secrets.choice(digits) for _ in range(6))
         send_email.delay(normalized_email, code)
         return code

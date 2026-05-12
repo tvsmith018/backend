@@ -28,10 +28,7 @@ allowed_websocket_origins = [
     "https://www.bigchiefnewz.com",
     "https://bigchiefnewz.com",
     "https://bigchiefnewz-a2e8434d1e6d.herokuapp.com",
-    "http://bigchiefnewz-a2e8434d1e6d.herokuapp.com",
     "https://bigchiefdev.ngrok.app",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
 ]
 
 extra_allowed_origins = os.environ.get("WEBSOCKET_ALLOWED_ORIGINS", "")

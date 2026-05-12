@@ -67,11 +67,7 @@ def _build_allowed_origins(hosts):
         clean_host = clean_host.lstrip(".")
         if "*" in clean_host:
             continue
-        if clean_host.startswith("localhost") or clean_host.startswith("127.0.0.1"):
-            origins.append(f"http://{clean_host}")
-            origins.append(f"https://{clean_host}")
-        else:
-            origins.append(f"https://{clean_host}")
+        origins.append(f"https://{clean_host}")
     return origins
 
 

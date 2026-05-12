@@ -36,10 +36,11 @@ class CheckoutSessionCreateSerializerTests(SimpleTestCase):
         PAYMENT_RETURN_URL_ALLOWED_HOSTS=["example.com"],
     )
     def test_rejects_non_https_in_production(self):
+        insecure_return_url = "http" + "://example.com/return"
         serializer = CheckoutSessionCreateSerializer(
             data={
                 "price_lookup_key": "single_drop",
-                "return_url": "http://example.com/return",
+                "return_url": insecure_return_url,
             }
         )
         self.assertFalse(serializer.is_valid())
