@@ -43,10 +43,12 @@ urlpatterns = api_doc_patterns + [
     path('admin/', admin.site.urls),
     path(
         "graphql/",
+        # GraphQL auth is header-token based (JWT), so CSRF cookie checks are not used.
+        # Keep CSRF exemption, but explicitly constrain methods to reduce attack surface.
         csrf_exempt(
             require_http_methods(["POST", "OPTIONS"])(build_graphql_view())
             if settings.IS_PRODUCTION and settings.GRAPHQL_POST_ONLY_IN_PRODUCTION
-            else build_graphql_view()
+            else require_http_methods(["GET", "POST", "OPTIONS"])(build_graphql_view())
         ),
     ),
     path('authorized/',include('users.urls')),
