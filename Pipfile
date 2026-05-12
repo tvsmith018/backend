@@ -8,13 +8,36 @@ django = "*"
 psycopg2 = "*"
 graphene-django = "*"
 pillow = "*"
-adrf = "*"
 django-cleanup = "*"
+adrf = "*"
 django-cors-headers = "*"
 django-filter = "*"
 python-dotenv = "*"
+gunicorn = "*"
+whitenoise = "*"
+cloudinary = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+celery = {extras = ["librabbitmq", "redis", "auth", "msgpack"], version = "*"}
+gevent = "*"
+django-extensions = "*"
+channels = {extras = ["daphne"], version = "*"}
+channels-redis = "*"
+django-celery-beat = "*"
+cffi = "*"
+certifi = "*"
+twisted = {extras = ["tls", "http2"], version = "*"}
+sentry-sdk = "*"
+opentelemetry-sdk = "*"
+opentelemetry-instrumentation-django = "*"
+django-redis = "*"
+kombu = "*"
+redis = "*"
+stripe = "*"
+drf-spectacular = "*"
 
 [dev-packages]
+coverage = "*"
 
 [requires]
 python_version = "3.12"
