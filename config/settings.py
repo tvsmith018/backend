@@ -84,7 +84,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.getenv('DEBUG')))
+DEBUG = _parse_bool_env("DEBUG", False)
 IS_PRODUCTION = not DEBUG
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 BILLING_TIME_ZONE = os.getenv("BILLING_TIME_ZONE", "America/New_York")
@@ -347,8 +347,6 @@ SECURE_HSTS_PRELOAD = _parse_bool_env("SECURE_HSTS_PRELOAD", False)
 
 
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated'
@@ -407,14 +405,12 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {
-                "ssl_cert_reqs": None,  # 🔥 THIS FIXES IT
+                "ssl_cert_reqs": REDIS_SSL_CERT_REQS,
+                "ssl_ca_certs": REDIS_SSL_CA_CERTS,
             },
         }
     }
 }
-
-CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_cert_reqs"] = REDIS_SSL_CERT_REQS
-CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_ca_certs"] = REDIS_SSL_CA_CERTS
 
 LOGGING = {
     "version": 1,
