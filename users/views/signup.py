@@ -85,9 +85,9 @@ class SignupView(BaseAsyncAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         try:
             serializer.save()
-        except Exception as e:
+        except Exception:
             logger.exception("Signup failed for email=%s", payload.get("email"))
-            return self.error(str(e))
+            return self.error("Unable to register user right now.")
         return self.success("User registered successfully", 201)
 
     async def post(self, request):
