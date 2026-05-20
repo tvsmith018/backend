@@ -1,10 +1,13 @@
 import graphene
+from graphql import GraphQLError
 from graphql_relay import from_global_id
 
 from profiles.models import ProfileFollow, ProfileImage
 from profiles.services.profile_image_service import ProfileImageService
 from schemas.nodes.profilenode import ProfileImageNode
 from users.models import Users
+
+AUTH_REQUIRED_MESSAGE = "Authentication required."
 
 
 def resolve_profile_viewer_user_id(info):
@@ -39,12 +42,12 @@ class UnfollowUser(graphene.Mutation):
     def mutate(cls, root, info, following_user_id):
         viewer_user_id = resolve_profile_viewer_user_id(info)
         if viewer_user_id is None:
-            raise Exception("Authentication required.")
+            raise GraphQLError(AUTH_REQUIRED_MESSAGE)
 
         try:
             target_user_id = int(following_user_id)
         except (TypeError, ValueError):
-            raise Exception("Invalid following_user_id.")
+            raise GraphQLError("Invalid following_user_id.")
 
         if viewer_user_id == target_user_id:
             return cls(ok=False, deleted_count=0)
@@ -75,7 +78,7 @@ def parse_profile_image_id(value) -> int:
         _, decoded = from_global_id(raw)
         return int(decoded)
     except Exception as exc:
-        raise Exception("Invalid image id.") from exc
+        raise GraphQLError("Invalid image id.") from exc
 
 
 class UploadProfilePhoto(graphene.Mutation):
@@ -90,14 +93,14 @@ class UploadProfilePhoto(graphene.Mutation):
     def mutate(cls, root, info, image_data, caption="", visibility="public"):
         viewer_user_id = resolve_profile_viewer_user_id(info)
         if viewer_user_id is None:
-            raise Exception("Authentication required.")
+            raise GraphQLError(AUTH_REQUIRED_MESSAGE)
 
         visibility_value = (visibility or ProfileImage.Visibility.PUBLIC).lower()
         if visibility_value not in {
             ProfileImage.Visibility.PUBLIC,
             ProfileImage.Visibility.PRIVATE,
         }:
-            raise Exception("Invalid visibility value.")
+            raise GraphQLError("Invalid visibility value.")
 
         result = ProfileImageService.upload_photo(
             user_id=viewer_user_id,
@@ -124,7 +127,7 @@ class SetFeaturedProfilePhoto(graphene.Mutation):
     def mutate(cls, root, info, image_id):
         viewer_user_id = resolve_profile_viewer_user_id(info)
         if viewer_user_id is None:
-            raise Exception("Authentication required.")
+            raise GraphQLError(AUTH_REQUIRED_MESSAGE)
 
         parsed_image_id = parse_profile_image_id(image_id)
         result = ProfileImageService.set_featured_photo(
@@ -150,7 +153,7 @@ class ToggleProfilePhotoVisibility(graphene.Mutation):
     def mutate(cls, root, info, image_id):
         viewer_user_id = resolve_profile_viewer_user_id(info)
         if viewer_user_id is None:
-            raise Exception("Authentication required.")
+            raise GraphQLError(AUTH_REQUIRED_MESSAGE)
 
         parsed_image_id = parse_profile_image_id(image_id)
         result = ProfileImageService.toggle_visibility(
@@ -175,7 +178,7 @@ class DeleteProfilePhoto(graphene.Mutation):
     def mutate(cls, root, info, image_id):
         viewer_user_id = resolve_profile_viewer_user_id(info)
         if viewer_user_id is None:
-            raise Exception("Authentication required.")
+            raise GraphQLError(AUTH_REQUIRED_MESSAGE)
 
         parsed_image_id = parse_profile_image_id(image_id)
         result = ProfileImageService.delete_photo(
@@ -202,7 +205,7 @@ class ClearProfileAvatar(graphene.Mutation):
     def mutate(cls, root, info):
         viewer_user_id = resolve_profile_viewer_user_id(info)
         if viewer_user_id is None:
-            raise Exception("Authentication required.")
+            raise GraphQLError(AUTH_REQUIRED_MESSAGE)
 
         result = ProfileImageService.clear_avatar(user_id=viewer_user_id)
         return ProfilePhotoMutationPayload(

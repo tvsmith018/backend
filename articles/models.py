@@ -7,20 +7,20 @@ from cloudinary.models import CloudinaryField
 
 
 class Articles(models.Model):
-    image1x1 = CloudinaryField('image1x1', null=True, blank=True, folder=f"article_image_1x1")
-    image4x3 = CloudinaryField('image4x3', null=True, blank=True, folder=f"article_image_4x3")
-    image16x9 = CloudinaryField('image16x9', null=True, blank=True, folder=f"article_image_16x9")
+    image1x1 = CloudinaryField('image1x1', null=True, blank=True, folder="article_image_1x1")
+    image4x3 = CloudinaryField('image4x3', null=True, blank=True, folder="article_image_4x3")
+    image16x9 = CloudinaryField('image16x9', null=True, blank=True, folder="article_image_16x9")
     title = models.CharField(max_length=200, null=False, blank=False)
     altImage = models.CharField(max_length=200, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     category = models.CharField(max_length=100, null=False, blank=False)
     briefsummary = models.TextField(null=False, blank=False)
     author = models.ForeignKey(Users, on_delete=models.CASCADE, null=False, blank=False)
-    badgeColor = models.CharField(max_length=200, null=True, blank=True)
-    featuredType = models.CharField(max_length=200, null=True, blank=True)
-    videoLink = models.CharField(max_length=300, null=True, blank=True)
-    body = models.TextField(null=True, blank=True)
-    videoType = models.CharField(max_length=300, null=True, blank=True)
+    badgeColor = models.CharField(max_length=200, blank=True)
+    featuredType = models.CharField(max_length=200, blank=True)
+    videoLink = models.CharField(max_length=300, blank=True)
+    body = models.TextField(blank=True)
+    videoType = models.CharField(max_length=300, blank=True)
     ratings =  models.ManyToManyField(Users, through='Rating', related_name='rating_articles', blank=True)
 
     views_count = models.PositiveBigIntegerField(default=0)
@@ -107,9 +107,9 @@ class ArticleView(models.Model):
         db_index=True,
     )
 
-    session_key = models.CharField(max_length=255, null=True, blank=True, db_index=True)
+    session_key = models.CharField(max_length=255, blank=True, db_index=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True, db_index=True)
-    user_agent = models.TextField(null=True, blank=True)
+    user_agent = models.TextField(blank=True)
 
     source = models.CharField(
         max_length=20,
